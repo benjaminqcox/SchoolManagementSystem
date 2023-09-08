@@ -1,6 +1,8 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
+#include "subject.h"
+#include <stdbool.h>
 typedef struct Grade
 {
     char gradeAchieved;
@@ -20,6 +22,10 @@ Grade_t * createStudentSubject(Subject_t * subject);
 
 Grade_t ** createStudentSubjects(Subject_t ** subjects);
 
-Student_t * createStudent(char * name, Grade_t ** subjects);
+Student_t * createStudent(char * name, Subject_t ** subjects);
+
+Grade_t * findStudentSubject(Student_t ** student, Subject_t * subject);
+
+bool updateStudentGrade(Student_t ** student, Subject_t * subject, char grade);
 
 #endif

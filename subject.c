@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "subject.h"
 #include "student.h"
 
@@ -41,4 +42,27 @@ Subject_t * createSubject(char * name, Teacher_t * teacher)
     // Cannot initialise it as it is unknown how many students study this subject
     subject->students = NULL;
     return subject;
+}
+
+Subject_t * findSubject(Subject_t ** subjects, char * name)
+{
+    // Find the number of total subjects
+    unsigned short int numSubjects = sizeof(*subjects)/sizeof(Subject_t);
+    // Loop through all subjects
+    for (int i = 0; i < numSubjects; i++)
+    {
+        // if the name of the subject matches the search name, return it
+        if (strcmp((*subjects[i]).name, name))
+        {
+            return subjects[i];
+        }
+    }
+    // if no subject found, return NULL
+    return NULL;
+}
+
+Student_t ** findStudentsStudyingSubject()
+{
+    Student_t ** s;
+    return s;
 }

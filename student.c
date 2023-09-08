@@ -36,12 +36,12 @@ Grade_t ** createStudentSubjects(Subject_t ** subjects)
     // For each subject, create a student subject pointer and add it to add subjects
     for (int i = 0; i < numSubjects; i++)
     {
-        addSubjects[i] = createStudentSubject(*subjects[i]);
+        addSubjects[i] = createStudentSubject(&(*subjects)[i]);
     }
     return addSubjects;
 }
 
-Student_t * createStudent(char * name, Grade_t ** subjects)
+Student_t * createStudent(char * name, Subject_t ** subjects)
 {
     // Keep track of the ids assigned to students (not changeable by the user)
     static unsigned short int id = 0;
@@ -53,4 +53,38 @@ Student_t * createStudent(char * name, Grade_t ** subjects)
     // Add all subjects entered to the students grade
     newStudent->grades = createStudentSubjects(subjects);
     return newStudent;
+}
+
+Grade_t * findStudentSubject(Student_t ** student, Subject_t * subject)
+{
+    // Calculate the number of subjects a student is studying = students grades / size of grade_t
+    unsigned short int numSubjects = sizeof((*student)->grades)/sizeof(Grade_t);
+    // Loop through all subjects studied by student
+    
+    for (int i = 0; i < numSubjects; i++)
+    {
+        // If chosen subject found, update stored grade and return the subject
+        if ((*student)->grades[i]->subject == subject)
+        {
+            return (*student)->grades[i];
+        }
+    }
+    // If no subject found, return NULL
+    return NULL;
+}
+
+bool updateStudentGrade(Student_t ** student, Subject_t * subject, char grade)
+{
+    // Find if the subject is studied by student
+    Grade_t * foundSubject = findStudentSubject(student, subject);
+    if (foundSubject == NULL)
+    {
+        // Could not update, false means did not update
+        printf("Subject not found in students subjects. Could not add grade.");
+        return false;
+    }
+    // Update grade with chosen value
+    foundSubject->gradeAchieved = grade;
+    // True means grade was updated
+    return true;
 }
